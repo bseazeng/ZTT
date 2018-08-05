@@ -1,40 +1,43 @@
+
+#include <stdio.h>
+
 #include "ZTT_ThreadPool.h"
 #include "ZTT_Comm.h"
-#include <stdio.h>
-#define CHECK_PARAM(x) do{if(NULL == x) return NULL;}while(0)
-void *taskprocess(void *arg)
+#include "ZTT_Cmd.h"
+
+int taskprocess(void *arg)
 {
-    CHECK_PARAM(arg);
-    printf("aaaaaadoing tasksaaaaaaaaa\n");
-    sleep(1);
-    return NULL;
+    ZTT_Printf("aaaaaadoing tasksaaaaaaaaa\n");
+    //sleep(1);
+    return 0;
 }
  
  
-int main(int argc, char *argv[])
+int ZTT_CmdThreadPoolTest(int argc, char *argv[])
 {
     ZTT_PTHREAD_POOL_ST *pool= NULL;
-    ZTT_ThreadPoolInit(&pool,5);
-    printf("thread_num:%d\n",pool->thread_num);
+    ZTT_ThreadPoolInit(&pool,3);
+    ZTT_Printf("thread_num:%d\n",pool->thread_num);
     int i;
     for(i=1; i<=10; i++)
     {
-        ZTT_TAST_ST *new_task=NULL;
-        int iRet = ZTT_TaskInit(&new_task,i, (void*)taskprocess, NULL);
+        ZTT_TAST_ST *new_task = NULL;
+        int iRet = ZTT_TaskInit(&new_task,i, taskprocess, NULL);
         if(ZTT_SUCCESS != iRet)
         {
                 continue;
         }
-        printf("will add task %d\n",i);
         iRet= ZTT_ThreadPoolAddTask(pool,new_task);
         if(ZTT_SUCCESS != iRet)
         {
                 continue;
         }
-        printf("add task %d\n",i);
-        usleep(1000);
+        ZTT_Printf("add task %d\n",new_task->task_id);       
     }
-    sleep(5);
-    ZTT_ThreadPoolDestroy(pool);
+
+    sleep(10);
+    //ZTT_ThreadPoolDestroy(pool);
     return 0;
 }
+
+ZTT_CMD_REG(pl,ZTT_CmdThreadPoolTest);

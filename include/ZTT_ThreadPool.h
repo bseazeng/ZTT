@@ -7,13 +7,14 @@
 #include <string.h>
 #include <pthread.h>
  
-typedef  void (*TASK_FUNC)(void *args);
+typedef  int (*TASK_FUNC)(void *args);
 typedef struct ZTT_TAST_ST_
 {
-    TASK_FUNC  task_func;
-    void       *task_func_args;//函数的参数
     int        task_id;
     struct     ZTT_TAST_ST_ *next;
+    TASK_FUNC  task_func;
+    void       *task_func_args;//函数的参数    
+    
 }ZTT_TAST_ST;
  
 typedef struct ZTT_PTHREAD_POOL_ST_
@@ -39,11 +40,12 @@ typedef struct ZTT_PTHREAD_POOL_ST_
 extern "C"{
 #endif
 
-extern int ZTT_TaskInit(ZTT_TAST_ST **new_task,int task_id, TASK_FUNC task_fun, void *task_fun_args);
-extern int ZTT_TaskRelease(ZTT_TAST_ST *task);
-extern int ZTT_ThreadPoolInit(ZTT_PTHREAD_POOL_ST **pool,int thread_pool_num);
-extern int ZTT_ThreadPoolAddTask(ZTT_PTHREAD_POOL_ST *pool,ZTT_TAST_ST *new_task);
-extern int ZTT_ThreadPoolDestroy(ZTT_PTHREAD_POOL_ST *pool);
+int ZTT_TaskMalloc(ZTT_TAST_ST **new_task);
+int ZTT_TaskInit(ZTT_TAST_ST **new_task,int task_id, TASK_FUNC task_fun, void *task_fun_args);
+int ZTT_TaskFree(ZTT_TAST_ST *task);
+int ZTT_ThreadPoolInit(ZTT_PTHREAD_POOL_ST **pool,int thread_pool_num);
+int ZTT_ThreadPoolAddTask(ZTT_PTHREAD_POOL_ST *pool,ZTT_TAST_ST *new_task);
+int ZTT_ThreadPoolDestroy(ZTT_PTHREAD_POOL_ST *pool);
  
 void * ZTT_ThreadPoolSched(void *arg);
 #ifdef __cplusplus

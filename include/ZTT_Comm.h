@@ -8,6 +8,7 @@
 #define ZTT_FREE(p) if(NULL != (p))\
 {free((p));(p)= NULL}\
 
+#define ZTT_Printf(fmt,args...) printf("[%s] " fmt "\n",__func__,##args)
 #define ZTT_CHECK_RET_NULL(p) if((p) == NULL)\
         {printf("%s:%d Warning: failed.\n",\
             __func__, __LINE__); return;}
@@ -16,4 +17,6 @@
 #define ZTT_CHECK_RET_VAL(p, ret) if((p) == NULL)\
         {printf("%s:%d Warning: failed.\n", \
             __func__, __LINE__); return (ret);}
+            
+            
 #endif
