@@ -3,8 +3,8 @@
 #include <string.h>
 #include <signal.h>
 #include <dirent.h>
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "ZTT_list.h"
 
@@ -218,7 +218,6 @@ void StopMusic()
 }
 void ListMusic(ZTT_ListHead_ST *head)
 {
-	int i;
 	fprintf(stdout,"***********SONGLIST*************\n");
     ZTT_ListHead_ST *lst_tmp = NULL;
 	ZTT_ListHead_ST *lst_node = NULL;
@@ -253,7 +252,6 @@ void Control(ZTT_ListHead_ST *head)
 {
 	PlayMusic(gi_music_playing_id,head);
 	char cmd[20];
-	int i;
 	while(!quit)
 	{
 		fprintf(stdout,"Enter :");
@@ -309,6 +307,7 @@ void FreeSDL()
 	Mix_CloseAudio();
 	SDL_Quit();
 }
+#if 0
 int main(int argc, char *argv[])
 {
 	quit = 0;
@@ -331,3 +330,5 @@ int main(int argc, char *argv[])
 	FreeSDL();
 	return 0;
 }
+
+#endif
