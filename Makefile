@@ -2,8 +2,9 @@
 CC=gcc
 CFLAGS=-g -W -Wall
 PWD=${shell pwd}
-SOURCE_OBJ=./src/ZTT_Cmd.o ./src/ZTT_Main.o ./src/ZTT_music_main.o ./src/ZTT_ThreadPool.o ./src/ZTT_ThreadPoolTest.o
-INCLUDE=-I ${PWD}/include
+SOURCE_OBJ=./src/ZTT_Cmd.o ./src/ZTT_Main.o ./src/ZTT_music_main.o ./src/ThreadPool/ZTT_ThreadPool.o ./src/ZTT_ThreadPoolTest.o
+INCLUDE=-I ${PWD}/include/
+INCLUDE+=-I ${PWD}/src/DS/
 APP_LIB=-lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer
 APP_LIB+=-lpthread
 
